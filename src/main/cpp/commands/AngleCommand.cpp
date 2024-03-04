@@ -7,5 +7,4 @@ AngleCommand::AngleCommand(AngleSubsystem *sub, bool active, int setRotation) : 
 
 void AngleCommand::Execute() {
         angle->ShooterRotationAmount(chosenAngle);
-    
 }

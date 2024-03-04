@@ -6,12 +6,11 @@
 #include <frc/SmartDashboard/SmartDashboard.h>
 
 ClimberSubsystem::ClimberSubsystem()
-    : spinIntake{constants::shooter::kSpinIntake, rev::CANSparkMax::MotorType::kBrushless},
-      rotateIntake{constants::shooter::kRotateIntake, rev::CANSparkMax::MotorType::kBrushless},
-      spinIntakeEncoder{spinIntake.GetEncoder(rev::SparkRelativeEncoder::Type::kHallSensor)},
+    : leftClimber{constants::shooter::kSpinIntake, rev::CANSparkMax::MotorType::kBrushless},
+      rightClimber{constants::shooter::kRotateIntake, rev::CANSparkMax::MotorType::kBrushless},
       //rotateIntakeEncoder{rotateIntake.GetEncoder(rev::SparkAbsoluteEncoder::)},
-      spinIntakePID{spinIntake.GetPIDController()},
-      rotateIntakePID{rotateIntake.GetPIDController()}
+      leftClimberPID{leftClimber.GetPIDController()},
+      rightClimberPID{rightClimber.GetPIDController()}
       {
 
     ResetEncoders();
@@ -19,11 +18,13 @@ ClimberSubsystem::ClimberSubsystem()
 
 
 void ClimberSubsystem::RetractArm() {
-    spinIntakePID.SetReference(SetPoint, rev::CANSparkMax::ControlType::kVelocity);
+    leftClimberPID.SetReference(0, rev::CANSparkMax::ControlType::kPosition);
+    rightClimberPID.SetReference(0, rev::CANSparkMax::ControlType::kPosition);
     }
 
-void ClimberSubsystem::ExtendArm() {
-    spinIntakePID.SetReference(0, rev::CANSparkMax::ControlType::kVelocity);
+void ClimberSubsystem::ExtendArm(int degreeAmount) {
+    leftClimberPID.SetReference(degreeAmount, rev::CANSparkMax::ControlType::kPosition);
+    rightClimberPID.SetReference(degreeAmount, rev::CANSparkMax::ControlType::kPosition);
 }
 
 
@@ -40,20 +41,20 @@ void ClimberSubsystem::Periodic() {
     float MaxRPM = constants::shooter::kMaxRPM;
   
     // set PID coefficients
-    spinIntakePID.SetP(shooterP);
-    spinIntakePID.SetI(shooterI);
-    spinIntakePID.SetD(shooterD);
-    spinIntakePID.SetIZone(shooterIZ);
-    spinIntakePID.SetFF(shooterFF);
-    spinIntakePID.SetOutputRange(MinOutput, MaxOutput);
+    leftClimberPID.SetP(shooterP);
+    leftClimberPID.SetI(shooterI);
+    leftClimberPID.SetD(shooterD);
+    leftClimberPID.SetIZone(shooterIZ);
+    leftClimberPID.SetFF(shooterFF);
+    leftClimberPID.SetOutputRange(MinOutput, MaxOutput);
+
+    // set PID coefficients
+    rightClimberPID.SetP(shooterP);
+    rightClimberPID.SetI(shooterI);
+    rightClimberPID.SetD(shooterD);
+    rightClimberPID.SetIZone(shooterIZ);
+    rightClimberPID.SetFF(shooterFF);
+    rightClimberPID.SetOutputRange(MinOutput, MaxOutput);
 
     // display PID coefficients on SmartDashboard
-    frc::SmartDashboard::PutNumber("P Gain - Intake", shooterP);
-    frc::SmartDashboard::PutNumber("I Gain - Intake", shooterI);
-    frc::SmartDashboard::PutNumber("D Gain - Intake", shooterD);
-    frc::SmartDashboard::PutNumber("I Zone - Intake", shooterIZ);
-    frc::SmartDashboard::PutNumber("Feed Forward - Intake", shooterFF);
-    frc::SmartDashboard::PutNumber("Max Output - Intake", MaxOutput);
-    frc::SmartDashboard::PutNumber("Min Output - Intake", MinOutput);
-    frc::SmartDashboard::PutNumber("spinIntakeVelocity - Intake", spinIntakeEncoder.GetVelocity());
     }

@@ -15,5 +15,6 @@ class AngleCommand
   private:
     AngleSubsystem *angle;
     bool is_active;
-    int angle;
+    int chosenAngle;
+    
 };

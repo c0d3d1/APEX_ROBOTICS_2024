@@ -6,19 +6,19 @@
 #include <frc/SmartDashboard/SmartDashboard.h>
 
 AngleSubsystem::AngleSubsystem()
-    : spinIntake{constants::shooter::kSpinIntake, rev::CANSparkMax::MotorType::kBrushless},
-      rotateIntake{constants::shooter::kRotateIntake, rev::CANSparkMax::MotorType::kBrushless},
-      spinIntakeEncoder{spinIntake.GetEncoder(rev::SparkRelativeEncoder::Type::kHallSensor)},
+    : leftLift{constants::shooter::kSpinIntake, rev::CANSparkMax::MotorType::kBrushless},
+      rightLift{constants::shooter::kRotateIntake, rev::CANSparkMax::MotorType::kBrushless},
       //rotateIntakeEncoder{rotateIntake.GetEncoder(rev::SparkAbsoluteEncoder::)},
-      spinIntakePID{spinIntake.GetPIDController()},
-      rotateIntakePID{rotateIntake.GetPIDController()}
+      leftLiftPID{leftLift.GetPIDController()},
+      rightLiftPID{rightLift.GetPIDController()}
       {
 
     ResetEncoders();
 }
 
 void AngleSubsystem::ShooterRotationAmount(int SetRotation) {
-    rotateIntakePID.SetReference(SetRotation, rev::CANSparkMax::ControlType::kPosition);
+    leftLiftPID.SetReference(SetRotation, rev::CANSparkMax::ControlType::kPosition);
+    rightLiftPID.SetReference(SetRotation, rev::CANSparkMax::ControlType::kPosition);
 }
 
 
@@ -34,20 +34,19 @@ void AngleSubsystem::Periodic() {
     float MaxRPM = constants::shooter::kMaxRPM;
   
     // set PID coefficients
-    spinIntakePID.SetP(shooterP);
-    spinIntakePID.SetI(shooterI);
-    spinIntakePID.SetD(shooterD);
-    spinIntakePID.SetIZone(shooterIZ);
-    spinIntakePID.SetFF(shooterFF);
-    spinIntakePID.SetOutputRange(MinOutput, MaxOutput);
+    leftLiftPID.SetP(shooterP);
+    leftLiftPID.SetI(shooterI);
+    leftLiftPID.SetD(shooterD);
+    leftLiftPID.SetIZone(shooterIZ);
+    leftLiftPID.SetFF(shooterFF);
+    leftLiftPID.SetOutputRange(MinOutput, MaxOutput);
+
+    rightLiftPID.SetP(shooterP);
+    rightLiftPID.SetI(shooterI);
+    rightLiftPID.SetD(shooterD);
+    rightLiftPID.SetIZone(shooterIZ);
+    rightLiftPID.SetFF(shooterFF);
+    rightLiftPID.SetOutputRange(MinOutput, MaxOutput);
 
     // display PID coefficients on SmartDashboard
-    frc::SmartDashboard::PutNumber("P Gain - Intake", shooterP);
-    frc::SmartDashboard::PutNumber("I Gain - Intake", shooterI);
-    frc::SmartDashboard::PutNumber("D Gain - Intake", shooterD);
-    frc::SmartDashboard::PutNumber("I Zone - Intake", shooterIZ);
-    frc::SmartDashboard::PutNumber("Feed Forward - Intake", shooterFF);
-    frc::SmartDashboard::PutNumber("Max Output - Intake", MaxOutput);
-    frc::SmartDashboard::PutNumber("Min Output - Intake", MinOutput);
-    frc::SmartDashboard::PutNumber("spinIntakeVelocity - Intake", spinIntakeEncoder.GetVelocity());
     }

@@ -13,7 +13,7 @@ class ClimberCommand
     //bool IsFinished() override;
 
   private:
-    ClimberSubsystem *intake;
+    ClimberSubsystem *climber;
     bool is_active;
     int angle;
 };

@@ -9,12 +9,12 @@ class ClimberSubsystem : public frc2::SubsystemBase {
     ClimberSubsystem();
     void Periodic();
     void ExtendArm(int degreeAmount);
-    void RetractArm(int degreeAmount);
+    void RetractArm();
 
   private:
     void ResetEncoders();
     void SetPid();
-    rev::CANSparkMax leftCclimber;
+    rev::CANSparkMax leftClimber;
     rev::CANSparkMax rightClimber;
     rev::SparkPIDController leftClimberPID;
     rev::SparkPIDController rightClimberPID;
