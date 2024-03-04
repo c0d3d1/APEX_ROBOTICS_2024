@@ -11,6 +11,7 @@ class IntakeSubsystem : public frc2::SubsystemBase {
     void IntakeSpin(int rotationPoint);
     void StopIntakeSpin();
     void IntakeRotationAngle(int SetRotation);
+    bool intakeOut;
 
   private:
     void ResetEncoders();

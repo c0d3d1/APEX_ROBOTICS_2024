@@ -34,15 +34,20 @@ void RobotContainer::ConfigureBindings() {
     drive.SetDefaultCommand(DriveCommand(&drive, ly, rx, ry));
 
     generic.Button(6).OnTrue(
-        frc2::InstantCommand([&] { intake.IntakeRotationAngle(0); }, {&intake}).ToPtr());
+        frc2::InstantCommand([&] {
+            if(intake.intakeOut=true) {
+             intake.IntakeSpin(1000); 
+            }
+            else {
+             intake.IntakeSpin(-1000); 
+            } }, {&intake}).ToPtr());
     generic.Button(7).OnTrue(
-        frc2::InstantCommand([&] { intake.IntakeRotationAngle(10); }, {&intake}).ToPtr());
-
+        frc2::InstantCommand([&] { intake.IntakeSpin(0); }, {&intake}).ToPtr());
     generic.Button(8).OnTrue(
-        frc2::InstantCommand([&] { intake.IntakeSpin(500); }, {&intake}).ToPtr());
-     generic.Button(9).OnTrue(
-        frc2::InstantCommand([&] { shooter.Shooter(250); }, {&shooter}).ToPtr());
+        frc2::InstantCommand([&] { intake.IntakeRotationAngle(90); intake.intakeOut = true;}, {&intake}).ToPtr());
 
+    generic.Button(9).OnTrue(
+        frc2::InstantCommand([&] { intake.IntakeRotationAngle(-90); intake.intakeOut = false;}, {&intake}).ToPtr());
 
     generic.Button(10).OnTrue(
         frc2::InstantCommand([&] { shooter.Shooter(2000); }, {&shooter}).ToPtr());

@@ -17,6 +17,8 @@
 #include "subsystems/DriveSubsystem.h"
 #include "subsystems/ShooterSubsystem.h"
 #include "subsystems/IntakeSubsystem.h"
+#include "subsystems/AngleSubsystem.h"
+#include "subsystems/ClimberSubsystem.h"
 
 class RobotContainer {
   public:
@@ -33,6 +35,10 @@ class RobotContainer {
     ShooterSubsystem shooter;
 
     IntakeSubsystem intake;
+
+    AngleSubsystem angle;
+    
+    ClimberSubsystem climber;
 
   private:
     void ConfigureBindings();

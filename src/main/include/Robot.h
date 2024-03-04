@@ -29,6 +29,11 @@ class Robot : public frc::TimedRobot {
     void TestExit() override;
 
   private:
+    frc::SendableChooser<std::string> m_chooser;
+    const std::string kAutoNameDefault = "Default";
+    const std::string kAutoNameCustom = "My Auto";
+    std::string m_autoSelected;
+    
     frc2::Command *m_autonomousCommand;
 
     RobotContainer m_container;
