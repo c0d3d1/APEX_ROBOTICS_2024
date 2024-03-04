@@ -13,6 +13,8 @@
 #include "commands/DriveCommand.h"
 #include "commands/ShootCommand.h"
 #include "commands/IntakeCommand.h"
+#include "commands/AngleCommand.h"
+#include "commands/ClimberCommand.h"
 #include <iostream>
 
 RobotContainer::RobotContainer() {
@@ -41,21 +43,24 @@ void RobotContainer::ConfigureBindings() {
             else {
              intake.IntakeSpin(-1000); 
             } }, {&intake}).ToPtr());
-    generic.Button(7).OnTrue(
-        frc2::InstantCommand([&] { intake.IntakeSpin(0); }, {&intake}).ToPtr());
-    generic.Button(8).OnTrue(
-        frc2::InstantCommand([&] { intake.IntakeRotationAngle(90); intake.intakeOut = true;}, {&intake}).ToPtr());
 
-    generic.Button(9).OnTrue(
+    generic.Button(6).OnFalse(
+        frc2::InstantCommand([&] { intake.IntakeSpin(0); }, {&intake}).ToPtr());
+
+    generic.Button(7).OnTrue(
+        frc2::InstantCommand([&] { intake.IntakeRotationAngle(90); intake.intakeOut = true;}, {&intake}).ToPtr());
+    generic.Button(8).OnTrue(
         frc2::InstantCommand([&] { intake.IntakeRotationAngle(-90); intake.intakeOut = false;}, {&intake}).ToPtr());
 
+    generic.Button(9).OnTrue(
+        frc2::InstantCommand([&] { angle.ShooterRotationAmount(10); }, {&angle}).ToPtr());
     generic.Button(10).OnTrue(
-        frc2::InstantCommand([&] { shooter.Shooter(2000); }, {&shooter}).ToPtr());
+        frc2::InstantCommand([&] { angle.ShooterRotationAmount(10); }, {&angle}).ToPtr());
+
     generic.Button(11).OnTrue(
         frc2::InstantCommand([&] { shooter.Shooter(5700); }, {&shooter}).ToPtr());
-    generic.Button(12).OnTrue(
+    generic.Button(11).OnFalse(
         frc2::InstantCommand([&] { shooter.StopShooter(); }, {&shooter}).ToPtr());
-    
 }
 
 frc2::Command *RobotContainer::GetAutonomousCommand() {
