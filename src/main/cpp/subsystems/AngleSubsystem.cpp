@@ -6,14 +6,12 @@
 #include <frc/SmartDashboard/SmartDashboard.h>
 
 AngleSubsystem::AngleSubsystem()
-    : leftLift{constants::shooter::kSpinIntake, rev::CANSparkMax::MotorType::kBrushless},
-      rightLift{constants::shooter::kRotateIntake, rev::CANSparkMax::MotorType::kBrushless},
+    : leftLift{constants::shooter::kLeftAngle, rev::CANSparkMax::MotorType::kBrushless},
+      rightLift{constants::shooter::kRightAngle, rev::CANSparkMax::MotorType::kBrushless},
       //rotateIntakeEncoder{rotateIntake.GetEncoder(rev::SparkAbsoluteEncoder::)},
       leftLiftPID{leftLift.GetPIDController()},
       rightLiftPID{rightLift.GetPIDController()}
       {
-
-    ResetEncoders();
 }
 
 void AngleSubsystem::ShooterRotationAmount(int SetRotation) {

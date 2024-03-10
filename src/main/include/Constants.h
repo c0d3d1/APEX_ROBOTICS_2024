@@ -18,11 +18,17 @@ constexpr units::meter_t kWheelDiameter = 6_in;
 constexpr float kDistancePerTick =
     (kWheelDiameter.value() * pi) / (2048.0 * 10.714);
 } // namespace drive
-namespace shooter {
-constexpr int kLeftShooter = 11;
-constexpr int kRightShooter = 12;
-constexpr int kSpinIntake = 7;
-constexpr int kRotateIntake = 8;
+namespace shooter { //TODO: FIX kLeftShooter to = 14 and kRotateIntake to = 11
+constexpr int kLeftShooter =   14;
+constexpr int kRightShooter = 8;
+constexpr int kSpinIntake = 12;
+constexpr int kRotateIntake = 11;
+
+constexpr int kLeftAngle = 13;
+constexpr int kRightAngle = 15;
+
+constexpr int kLeftClimber = 16;
+constexpr int kRightClimber = 17;
 
 constexpr float kShooterP = 6e-5;
 constexpr float kShooterI =  1e-6;
@@ -31,6 +37,15 @@ constexpr float kShooterFF = 0.000015;
 constexpr float kShooterIZ = 0;
 constexpr float kMaxOutput = 1.0;
 constexpr float kMinOutput = -1.0;
+
+constexpr float kIntakeP = 0.045999;
+constexpr float kIntakeI =  0.0000001;
+constexpr float kIntakeD = 0.25;
+constexpr float kIntakeFF = 0.0000914999;
+constexpr float kIntakeIZ = 0;
+constexpr float kIntakeMaxOutput = 0.45;
+constexpr float kIntakeMinOutput = -0.45;
+
 constexpr float kMaxRPM = 5700;
 /*constexpr int kArmLeft = 6;
 constexpr int kArmRight = 5;

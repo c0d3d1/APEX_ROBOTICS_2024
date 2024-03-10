@@ -37,25 +37,26 @@ void RobotContainer::ConfigureBindings() {
 
     generic.Button(6).OnTrue(
         frc2::InstantCommand([&] {
-            if(intake.intakeOut=true) {
+            //if(intake.intakeOut==true) {
              intake.IntakeSpin(1000); 
-            }
-            else {
-             intake.IntakeSpin(-1000); 
-            } }, {&intake}).ToPtr());
+           // }
+          //  else {
+         //    intake.IntakeSpin(-1000); 
+          //  } 
+            }, {&intake}).ToPtr());
 
     generic.Button(6).OnFalse(
         frc2::InstantCommand([&] { intake.IntakeSpin(0); }, {&intake}).ToPtr());
 
     generic.Button(7).OnTrue(
-        frc2::InstantCommand([&] { intake.IntakeRotationAngle(90); intake.intakeOut = true;}, {&intake}).ToPtr());
+        frc2::InstantCommand([&] { intake.IntakeRotationAngle(25.1); intake.intakeOut = true;}, {&intake}).ToPtr());
     generic.Button(8).OnTrue(
-        frc2::InstantCommand([&] { intake.IntakeRotationAngle(-90); intake.intakeOut = false;}, {&intake}).ToPtr());
+        frc2::InstantCommand([&] { intake.IntakeRotationAngle(-5); intake.intakeOut = false;}, {&intake}).ToPtr());
 
     generic.Button(9).OnTrue(
         frc2::InstantCommand([&] { angle.ShooterRotationAmount(10); }, {&angle}).ToPtr());
     generic.Button(10).OnTrue(
-        frc2::InstantCommand([&] { angle.ShooterRotationAmount(10); }, {&angle}).ToPtr());
+        frc2::InstantCommand([&] { angle.ShooterRotationAmount(-10); }, {&angle}).ToPtr());
 
     generic.Button(11).OnTrue(
         frc2::InstantCommand([&] { shooter.Shooter(5700); }, {&shooter}).ToPtr());

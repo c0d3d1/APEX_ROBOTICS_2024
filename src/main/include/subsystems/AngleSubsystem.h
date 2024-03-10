@@ -11,7 +11,6 @@ class AngleSubsystem : public frc2::SubsystemBase {
     void ShooterRotationAmount(int SetRotation);
 
   private:
-    void ResetEncoders();
     void SetPid();
     rev::CANSparkMax leftLift;
     rev::CANSparkMax rightLift;

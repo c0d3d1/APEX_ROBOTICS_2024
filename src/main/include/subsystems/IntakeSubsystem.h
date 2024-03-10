@@ -11,7 +11,7 @@ class IntakeSubsystem : public frc2::SubsystemBase {
     void IntakeSpin(int rotationPoint);
     void StopIntakeSpin();
     void IntakeRotationAngle(int SetRotation);
-    bool intakeOut;
+    bool intakeOut = false;
 
   private:
     void ResetEncoders();
@@ -21,5 +21,5 @@ class IntakeSubsystem : public frc2::SubsystemBase {
     rev::SparkPIDController spinIntakePID;
     rev::SparkPIDController rotateIntakePID;
     //rev::SparkAbsoluteEncoder rotateIntakeEncoder;
-    rev::SparkRelativeEncoder spinIntakeEncoder;
+    rev::SparkRelativeEncoder rotateIntakeEncoder;
 };

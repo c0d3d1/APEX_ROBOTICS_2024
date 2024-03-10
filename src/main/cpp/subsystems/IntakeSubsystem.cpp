@@ -8,7 +8,7 @@
 IntakeSubsystem::IntakeSubsystem()
     : spinIntake{constants::shooter::kSpinIntake, rev::CANSparkMax::MotorType::kBrushless},
       rotateIntake{constants::shooter::kRotateIntake, rev::CANSparkMax::MotorType::kBrushless},
-      spinIntakeEncoder{spinIntake.GetEncoder(rev::SparkRelativeEncoder::Type::kHallSensor)},
+      rotateIntakeEncoder{rotateIntake.GetEncoder(rev::SparkRelativeEncoder::Type::kHallSensor)},
       //rotateIntakeEncoder{rotateIntake.GetEncoder(rev::SparkAbsoluteEncoder::)},
       spinIntakePID{spinIntake.GetPIDController()},
       rotateIntakePID{rotateIntake.GetPIDController()}
@@ -18,7 +18,7 @@ IntakeSubsystem::IntakeSubsystem()
 }
 
 void IntakeSubsystem::ResetEncoders() {
-    spinIntakeEncoder.SetPosition(0);
+    rotateIntakeEncoder.SetPosition(0);
 }
 
 void IntakeSubsystem::IntakeSpin(int SetPoint) {
@@ -35,16 +35,17 @@ void IntakeSubsystem::IntakeRotationAngle(int SetRotation) {
 
 
 void IntakeSubsystem::Periodic() {
-    
-    float shooterP = constants::shooter::kShooterP;
-    float shooterI = constants::shooter::kShooterI;
-    float shooterD = constants::shooter::kShooterD;
-    float shooterIZ = constants::shooter::kShooterIZ;
-    float shooterFF = constants::shooter::kShooterFF;
+    // FIX shooter P etc to be for shooter pid
+    float shooterP = constants::shooter::kIntakeP;
+    float shooterI = constants::shooter::kIntakeI;
+    float shooterD = constants::shooter::kIntakeD;
+    float shooterIZ = constants::shooter::kIntakeIZ;
+    float shooterFF = constants::shooter::kIntakeFF;
     float MinOutput = constants::shooter::kMinOutput;
     float MaxOutput = constants::shooter::kMaxOutput;
     float MaxRPM = constants::shooter::kMaxRPM;
-  
+  float intakeMinOutput = constants::shooter::kIntakeMinOutput;
+  float intakeMaxOutput = constants::shooter::kIntakeMaxOutput;
     // set PID coefficients
     spinIntakePID.SetP(shooterP);
     spinIntakePID.SetI(shooterI);
@@ -52,6 +53,13 @@ void IntakeSubsystem::Periodic() {
     spinIntakePID.SetIZone(shooterIZ);
     spinIntakePID.SetFF(shooterFF);
     spinIntakePID.SetOutputRange(MinOutput, MaxOutput);
+
+    rotateIntakePID.SetP(shooterP);
+    rotateIntakePID.SetI(shooterI);
+    rotateIntakePID.SetD(shooterD);
+    rotateIntakePID.SetIZone(shooterIZ);
+    rotateIntakePID.SetFF(shooterFF);
+    rotateIntakePID.SetOutputRange(intakeMinOutput, intakeMaxOutput);
 
     // display PID coefficients on SmartDashboard
     frc::SmartDashboard::PutNumber("P Gain - Intake", shooterP);
@@ -61,5 +69,5 @@ void IntakeSubsystem::Periodic() {
     frc::SmartDashboard::PutNumber("Feed Forward - Intake", shooterFF);
     frc::SmartDashboard::PutNumber("Max Output - Intake", MaxOutput);
     frc::SmartDashboard::PutNumber("Min Output - Intake", MinOutput);
-    frc::SmartDashboard::PutNumber("spinIntakeVelocity - Intake", spinIntakeEncoder.GetVelocity());
+    frc::SmartDashboard::PutNumber("spinIntakeVelocity - Intake", rotateIntakeEncoder.GetVelocity());
     }

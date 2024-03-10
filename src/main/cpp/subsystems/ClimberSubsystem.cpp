@@ -6,14 +6,12 @@
 #include <frc/SmartDashboard/SmartDashboard.h>
 
 ClimberSubsystem::ClimberSubsystem()
-    : leftClimber{constants::shooter::kSpinIntake, rev::CANSparkMax::MotorType::kBrushless},
-      rightClimber{constants::shooter::kRotateIntake, rev::CANSparkMax::MotorType::kBrushless},
+    : leftClimber{constants::shooter::kLeftClimber, rev::CANSparkMax::MotorType::kBrushless},
+      rightClimber{constants::shooter::kRightClimber, rev::CANSparkMax::MotorType::kBrushless},
       //rotateIntakeEncoder{rotateIntake.GetEncoder(rev::SparkAbsoluteEncoder::)},
       leftClimberPID{leftClimber.GetPIDController()},
       rightClimberPID{rightClimber.GetPIDController()}
       {
-
-    ResetEncoders();
 }
 
 

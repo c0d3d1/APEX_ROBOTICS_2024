@@ -12,7 +12,6 @@ class ClimberSubsystem : public frc2::SubsystemBase {
     void RetractArm();
 
   private:
-    void ResetEncoders();
     void SetPid();
     rev::CANSparkMax leftClimber;
     rev::CANSparkMax rightClimber;
