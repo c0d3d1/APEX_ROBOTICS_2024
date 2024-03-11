@@ -6,5 +6,7 @@ ClimberCommand::ClimberCommand(ClimberSubsystem *sub, bool active, int rotationA
 }
 
 void ClimberCommand::Execute() {
-        climber->ExtendArm(angle);
+        //climber->ExtendArm(angle);
+        //TODO: Below might cause a bug
+        //climber->RetractArm();
 }

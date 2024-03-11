@@ -18,6 +18,7 @@
 #include <iostream>
 
 RobotContainer::RobotContainer() {
+    intake.intakeOut = false;
     ConfigureBindings();
     frc::SmartDashboard::PutData(&chooser);
 }
@@ -33,16 +34,45 @@ void RobotContainer::ConfigureBindings() {
     };
     ry = [this] { return -generic.GetRawAxis(3); };
     throttle = [this] { return generic.GetRawAxis(4); };
+
+
     drive.SetDefaultCommand(DriveCommand(&drive, ly, rx, ry));
+    
+
+
+ generic.Button(5).OnTrue(
+        frc2::InstantCommand([&] { 
+        float Kp = -0.1f;
+        float min_command = 0.05f;
+        std::shared_ptr<nt::NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
+        float tx = table->GetNumber("tx",0.0);
+
+        float heading_error = -tx;
+        float steering_adjust = 0.0f;
+        if (tx > 1.0)
+        {
+                steering_adjust = Kp*heading_error - min_command;
+        }
+        else if (tx < 1.0)
+        {
+                steering_adjust = Kp*heading_error + min_command;
+        }
+        // TODO: FIX RX AND TY ADD
+        //rx = rx + steering_adjust;
+        //ry = ry - steering_adjust;
+        drive.SetDefaultCommand(DriveCommand(&drive, ly, rx, ry));
+        
+        }, {&drive}).ToPtr());
+
 
     generic.Button(6).OnTrue(
         frc2::InstantCommand([&] {
-            //if(intake.intakeOut==true) {
+            if(intake.intakeOut==true) {
              intake.IntakeSpin(1000); 
-           // }
-          //  else {
-         //    intake.IntakeSpin(-1000); 
-          //  } 
+            }
+            else {
+             intake.IntakeSpin(-1000); 
+            } 
             }, {&intake}).ToPtr());
 
     generic.Button(6).OnFalse(
